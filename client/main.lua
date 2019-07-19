@@ -258,6 +258,9 @@ end
 
 AddEventHandler('playerSpawned', function()
 	Citizen.CreateThread(function()
+
+		SetEntityVisible(PlayerPedId(), false, 0)
+
 		while not ESX.IsPlayerLoaded() do
 			Citizen.Wait(10)
 		end
@@ -269,6 +272,8 @@ AddEventHandler('playerSpawned', function()
 				else
 					TriggerEvent('skinchanger:loadSkin', skin)
 				end
+
+				SetEntityVisible(PlayerPedId(), true, 0)
 			end)
 
 			firstSpawn = false
@@ -276,9 +281,12 @@ AddEventHandler('playerSpawned', function()
 			TriggerEvent('skinchanger:getSkin', function(skin)
 				TriggerEvent('skinchanger:loadDefaultModel', skin["sex"] == 0, function()
 					TriggerEvent('skinchanger:loadSkin', skin)
+					SetEntityVisible(PlayerPedId(), true, 0)
 				end)
 			end)
 		end
+		Citizen.Wait(1000)
+		SetEntityVisible(PlayerPedId(), true, 0)
 	end)
 end)
 
