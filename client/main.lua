@@ -272,6 +272,12 @@ AddEventHandler('playerSpawned', function()
 			end)
 
 			firstSpawn = false
+		else
+			TriggerEvent('skinchanger:getSkin', function(skin)
+				TriggerEvent('skinchanger:loadDefaultModel', skin["sex"] == 0, function()
+					TriggerEvent('skinchanger:loadSkin', skin)
+				end)
+			end)
 		end
 	end)
 end)
