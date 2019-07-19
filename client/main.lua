@@ -1,5 +1,5 @@
 ESX = nil
-local lastSkin, playerLoaded, cam, isCameraActive
+local lastSkin, cam, isCameraActive
 local firstSpawn, zoomOffset, camOffset, heading = true, 0.0, 0.0, 90.0
 
 Citizen.CreateThread(function()
@@ -258,8 +258,8 @@ end
 
 AddEventHandler('playerSpawned', function()
 	Citizen.CreateThread(function()
-		while not playerLoaded do
-			Citizen.Wait(100)
+		while not ESX.IsPlayerLoaded() do
+			Citizen.Wait(10)
 		end
 
 		if firstSpawn then
@@ -274,11 +274,6 @@ AddEventHandler('playerSpawned', function()
 			firstSpawn = false
 		end
 	end)
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-	playerLoaded = true
 end)
 
 AddEventHandler('esx_skin:getLastSkin', function(cb)
