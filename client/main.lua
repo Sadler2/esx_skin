@@ -8,6 +8,8 @@ Citizen.CreateThread(function()
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		Citizen.Wait(0)
 	end
+
+	ESX.UI.Menu.Close('default', GetCurrentResourceName(), 'skin')
 end)
 
 function OpenMenu(submitCb, cancelCb, restrict)
