@@ -1,4 +1,5 @@
 # esx_skin
+# DRAFT fork from [original esx_skin](https://github.com/ESX-Org/esx_skin), use at your own risk!
 
 ## Requirements
 - [skinchanger](https://github.com/ESX-Org/skinchanger)
