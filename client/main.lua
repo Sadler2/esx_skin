@@ -1,6 +1,7 @@
 ESX = nil
 local lastSkin, cam, isCameraActive
 local firstSpawn, zoomOffset, camOffset, heading = true, 0.0, 0.0, 90.0
+local startAngle, zoomValue = 0.0, 0.0
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -135,16 +136,19 @@ function OpenMenu(submitCb, cancelCb, restrict)
 end
 
 function CreateSkinCam()
+	startAngle = GetGameplayCamRot(0).z-GetEntityRotation(PlayerPedId(),0).z-90
+
 	if not DoesCamExist(cam) then
 		cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
 	end
+
+	local coords = GetEntityCoords(PlayerPedId())
+	SetCamCoord(cam, coords.x, coords.y, coords.z)
 
 	SetCamActive(cam, true)
 	RenderScriptCams(true, true, 500, true, true)
 
 	isCameraActive = true
-	SetCamRot(cam, 0.0, 0.0, 270.0, true)
-	SetEntityHeading(playerPed, 90.0)
 end
 
 function DeleteSkinCam()
@@ -178,8 +182,8 @@ Citizen.CreateThread(function()
 			}
 
 			local pos = {
-				x = coords.x + (zoomOffset * theta.x),
-				y = coords.y + (zoomOffset * theta.y)
+				x = coords.x + ((zoomValue+zoomOffset) * theta.x),
+				y = coords.y + ((zoomValue+zoomOffset) * theta.y)
 			}
 
 			local angleToLook = heading - 140.0
@@ -196,8 +200,8 @@ Citizen.CreateThread(function()
 			}
 
 			local posToLook = {
-				x = coords.x + (zoomOffset * thetaToLook.x),
-				y = coords.y + (zoomOffset * thetaToLook.y)
+				x = coords.x + ((zoomValue+zoomOffset) * thetaToLook.x),
+				y = coords.y + ((zoomValue+zoomOffset) * thetaToLook.y)
 			}
 
 			SetCamCoord(cam, pos.x, pos.y, coords.z + camOffset)
@@ -211,16 +215,24 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-	local angle = 90
-
 	while true do
 		Citizen.Wait(0)
 
 		if isCameraActive then
-			if IsControlPressed(0, 108) then
-				angle = angle - 1
-			elseif IsControlPressed(0, 109) then
-				angle = angle + 1
+			BlockWeaponWheelThisFrame()
+
+			local angle = GetGameplayCamRot(0).z - startAngle
+
+			if IsControlPressed(24, 14) then --INPUT_WEAPON_WHEEL_NEXT
+				zoomValue = zoomValue + 0.2
+			elseif IsControlPressed(24, 15) then --INPUT_WEAPON_WHEEL_PREV
+				zoomValue = zoomValue - 0.2
+			end
+
+			if zoomValue < 0 then
+				zoomValue = 0
+			elseif zoomValue > 1 then
+				zoomValue = 1
 			end
 
 			if angle > 360 then
