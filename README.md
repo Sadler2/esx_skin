@@ -1,6 +1,11 @@
 # esx_skin
 # DRAFT fork from [original esx_skin](https://github.com/ESX-Org/esx_skin), use at your own risk!
 
+## Fork Extra Features
+- Mouse-controlled Skin Menu. Zoom using the mouse wheel.
+- Fixed skin reset on death (need testing)
+- Added Russian locale
+
 ## Requirements
 - [skinchanger](https://github.com/ESX-Org/skinchanger)
 
