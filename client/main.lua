@@ -1,5 +1,6 @@
 ESX = nil
-local lastSkin, cam, isCameraActive
+local lastSkin, cam
+local isCameraActive = false
 local firstSpawn, zoomOffset, camOffset, heading = true, 0.0, 0.0, 90.0
 local startAngle, zoomValue = 0.0, 0.0
 
@@ -9,7 +10,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 	end
 
-	ESX.UI.Menu.Close('default', GetCurrentResourceName(), 'skin')
+	ESX.UI.Menu.Close(Config.MenuType, GetCurrentResourceName(), 'skin')
 end)
 
 function OpenMenu(submitCb, cancelCb, restrict)
@@ -78,7 +79,7 @@ function OpenMenu(submitCb, cancelCb, restrict)
 		zoomOffset = _components[1].zoomOffset
 		camOffset = _components[1].camOffset
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'skin', {
+		ESX.UI.Menu.Open(Config.MenuType, GetCurrentResourceName(), 'skin', {
 			title    = _U('skin_menu'),
 			align    = 'top-left',
 			elements = elements
