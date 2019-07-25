@@ -4,6 +4,8 @@
 ## Fork Extra Features
 - Mouse-controlled Skin Menu. Zoom using the mouse wheel.
 - Fixed skin reset on death (need testing)
+- Verbal skin description. Should be useful for suspect identification. Example: 
+> white woman, pink hair, red scarf, sunglasses, green t-shirt, breeches, shoes, armed with assault rifle. 
 - Added Russian locale
 
 ## Requirements
